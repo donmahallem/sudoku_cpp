@@ -2,7 +2,7 @@
 #include <assert.h>
 #include "sudoku_field.h"
 
-bool assertRange(short value, short min, short max)
+void assertRange(short value, short min, short max)
 {
     assert(value >= min && value <= max); // && (std::to_string(min) + "<" + std::to_string(value) + "<" + std::to_string(max)));
 }

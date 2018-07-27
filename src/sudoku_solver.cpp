@@ -92,7 +92,9 @@ bool SudokuSolver::findSingleOptions(SudokuField *sudokuField, SudokuTipField *t
 }
 bool SudokuSolver::singleRow(SudokuField *sudokuField, SudokuTipField *tipField, short row)
 {
+    return false;
 }
 bool SudokuSolver::singleColumn(SudokuField *sudokuField, SudokuTipField *tipField, short column)
 {
+    return false;
 }

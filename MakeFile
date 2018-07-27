@@ -1,13 +1,15 @@
 
-CXXFLAGS = -g -Wall -Wfatal-errors -std=c++14
+CXXFLAGS = -g -Wall 
 
-ALL = hello
+TARGET = main
+OBJECTS = src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
+all: $(TARGET)
 
-all: $(ALL)
+$(TARGET): src/main.cpp Makefile
+	$(CXX) $(CXXFLAGS) -o $@ src/$@.cpp $(OBJECTS)
 
-hello: src/main.cpp Makefile
-	$(CXX) $(CXXFLAGS) -o $@ $@.cpp
-
+%.o : %.cpp
+	$(CXX) $(CXXFLAGS) $<
 clean:
 	$(RM) $(ALL) *.o
 
