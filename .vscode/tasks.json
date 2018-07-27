@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build hello world",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "src/main.cpp",
+                "src/models/sudoku_field.cpp",
+                "src/models/sudoku_tip_field.cpp",
+                "src/models/tip_info.cpp",
+                "src/sudoku_solver.cpp"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
