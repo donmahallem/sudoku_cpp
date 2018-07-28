@@ -5,7 +5,7 @@ class TipInfo
 {
   private:
     bool info[9];
-    short numOptions = 9;
+    short numOptions;
 
   public:
     TipInfo();

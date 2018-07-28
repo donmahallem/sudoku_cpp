@@ -11,7 +11,7 @@ class SudokuTipField
     TipInfo rows[9];
     TipInfo columns[9];
     TipInfo blocks[9];
-    short const SIZE = 9;
+    short static const SIZE = 9;
     void checkRows(SudokuField &field, short value);
     void checkColumns(SudokuField &field, short value);
     void checkBlocks(SudokuField &field, short value);
