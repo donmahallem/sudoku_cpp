@@ -1,5 +1,5 @@
 
-CXXFLAGS = -g -Wall 
+CXXFLAGS = -g -Wall -std=c++11
 
 TARGET = main
 OBJECTS = src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
