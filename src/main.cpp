@@ -2,80 +2,40 @@
 #include "models/sudoku_field.h"
 #include "models/sudoku_tip_field.h"
 #include "sudoku_solver.h"
-int main()
+
+short parseInputChar(char inp)
 {
+    if (inp < 48 || inp > 57)
+    {
+        throw 21;
+    }
+    return inp - 48;
+}
+SudokuField *parseInput(char *inp)
+{
+    SudokuField *field = new SudokuField();
+    for (short i = 0; i < 9 * 9; i++)
+    {
+        short x = i % 9;
+        short y = i / 9;
+        field->set(x, y, parseInputChar(inp[i]));
+    }
+    return field;
+}
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        std::cout << "Not the correct number of args " << argc << std::endl;
+        return 1;
+    }
+    std::cout << argv[1] << std::endl;
+    SudokuField *f = parseInput(argv[1]);
+    f->print();
     std::cout << "Hello World" << std::endl;
 
-    SudokuField r;
-    r.width = 10;
-    r.height = 15;
-
-    std::cout << r.area() << std::endl;
-    //	`endl' - new line
-    r.set(0, 0, 8);
-    r.set(1, 0, 2);
-    r.set(2, 0, 5);
-    r.set(3, 0, 6);
-    r.set(4, 0, 3);
-    r.set(5, 0, 1);
-    r.set(6, 0, 9);
-    r.set(7, 0, 7);
-    r.set(8, 0, 4);
-    //
-    r.set(1, 1, 6);
-    r.set(2, 1, 7);
-    r.set(4, 1, 2);
-    r.set(5, 1, 4);
-    r.set(8, 1, 8);
-    //
-    r.set(0, 2, 4);
-    r.set(5, 2, 7);
-    r.set(6, 2, 6);
-    r.set(8, 2, 2);
-    //
-    r.set(1, 3, 5);
-    r.set(2, 3, 9);
-    r.set(4, 3, 4);
-    r.set(5, 3, 8);
-    r.set(6, 3, 2);
-    r.set(7, 3, 6);
-    r.set(8, 3, 1);
-    //
-    r.set(0, 4, 1);
-    r.set(2, 4, 8);
-    r.set(3, 4, 2);
-    r.set(4, 4, 6);
-    r.set(5, 4, 9);
-    r.set(6, 4, 7);
-    r.set(7, 4, 4);
-    r.set(8, 4, 5);
-    //
-    r.set(1, 5, 4);
-    r.set(3, 5, 1);
-    r.set(4, 5, 7);
-    r.set(5, 5, 5);
-    r.set(7, 5, 8);
-    //
-    r.set(0, 6, 3);
-    r.set(2, 6, 1);
-    r.set(3, 6, 4);
-    //
-    r.set(0, 7, 5);
-    r.set(5, 7, 3);
-    r.set(6, 7, 4);
-    //
-    r.set(0, 8, 2);
-    r.set(1, 8, 9);
-    r.set(2, 8, 4);
-    r.set(5, 8, 6);
-    r.set(6, 8, 5);
-    //
-    r.print();
-    std::cout << r.rowContains(2, 3) << std ::endl;
-    std::cout << r.blockContains(2, 2, 3) << std ::endl;
-    r.rowContains(0, 9);
     SudokuTipField tipField;
-    tipField.parse(r);
+    tipField.parse(*f);
     std::cout << std ::endl;
     std::cout << tipField.getTips(1, 2) << std ::endl;
     std::cout << tipField.getTips(0, 1) << std ::endl;
@@ -84,7 +44,7 @@ int main()
     SudokuSolver solver;
     SudokuField *r2;
     r2 = new SudokuField();
-    solver.solve(r, r2);
+    solver.solve(*f, r2);
     r2->print();
     TipInfo tip1;
     TipInfo tip2;

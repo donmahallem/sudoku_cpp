@@ -7,16 +7,8 @@ class SudokuField
     short field[9][9];
 
   public:
-    double x;
-    double y;
-
-  public:
     SudokuField();
     ~SudokuField();
-    double width;
-    double height;
-
-    double area();
 
     void print();
 

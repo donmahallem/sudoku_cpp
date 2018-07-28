@@ -8,8 +8,6 @@ void assertRange(short value, short min, short max)
 }
 
 SudokuField::SudokuField()
-    : x(1),
-      y(2)
 {
     //field = new int[9][9];
     for (int x = 0; x < 9; x++)
@@ -26,11 +24,6 @@ SudokuField::~SudokuField()
     std::cout << "SudoField.Destructor" << std::endl;
 }
 
-double SudokuField::area()
-{
-    return width * height;
-};
-
 short SudokuField::get(short x, short y) const
 {
     assert(x >= 0 && x <= 8);
@@ -39,7 +32,7 @@ short SudokuField::get(short x, short y) const
 };
 void SudokuField::set(short x, short y, short value)
 {
-    assert(value >= 1 && value <= 9);
+    assert(value >= 0 && value <= 9);
     assert(x >= 0 && x <= 8);
     assert(y >= 0 && y <= 8);
     this->field[x][y] = value;
