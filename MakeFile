@@ -14,4 +14,4 @@ clean:
 	$(RM) $(ALL) *.o
 
 test: all
-	bash test
+	$(CXX) $(CXXFLAGS) -o $@ test/$@.cpp $(OBJECTS) -I googletest/googletest/include src
