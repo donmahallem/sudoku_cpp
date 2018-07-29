@@ -17,5 +17,6 @@ install:
 - "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
 script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
+  - ls
   - make -f Makefile
 #  - make test
