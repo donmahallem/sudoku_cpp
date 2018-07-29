@@ -25,4 +25,4 @@ script:
 #  - make test
 after_success:
   - gcov *
-  - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
+  - coveralls --root ./test -E ".*gtest.*" -E ".*CMakeFiles.*"
