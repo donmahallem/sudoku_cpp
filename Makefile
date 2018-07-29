@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := main
-CXXFLAGS = -g -Wall -std=c++11
+CXXFLAGS = -g -Wall -std=gnu++11
 
 TARGET = main
 OBJECTS = src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
@@ -14,4 +14,4 @@ clean:
 	$(RM) $(ALL) *.o
 
 test: all
-	$(CXX) $(CXXFLAGS) -o $@ test/$@.cpp $(OBJECTS) -I googletest/googletest/include src
+	$(CXX) $(CXXFLAGS) -o $@ test/$@.cpp $(OBJECTS) -I googletest/googletest/include -I src

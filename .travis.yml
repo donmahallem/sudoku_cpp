@@ -12,11 +12,17 @@ addons:
     packages:
     - g++-6
     - clang-3.8
+before_install:
+  - pip install --user cpp-coveralls
 install:
 - "[ $CXX = g++ ] && export CXX=g++-6 || true"
 - "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
 script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - ls
-  - make -f Makefile
+  - cd test
+  - make -f MakefileTest.mk
 #  - make test
+after_success:
+  - gcov *
+  - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
