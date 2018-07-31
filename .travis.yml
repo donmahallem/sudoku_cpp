@@ -20,6 +20,7 @@ install:
 script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - make -f Makefile.mk test
+  - buildTest/test.exe
 #  - make test
 after_success:
   - gcov *
