@@ -3,7 +3,7 @@
 #include "models/sudoku_tip_field.h"
 #include "sudoku_solver.h"
 
-short parseInputChar(char inp)
+inline short parseInputChar(char inp)
 {
     if (inp < 48 || inp > 57)
     {
@@ -11,7 +11,7 @@ short parseInputChar(char inp)
     }
     return inp - 48;
 }
-SudokuField *parseInput(char *inp)
+inline SudokuField *parseInput(char *inp)
 {
     SudokuField *field = new SudokuField();
     for (short i = 0; i < 9 * 9; i++)

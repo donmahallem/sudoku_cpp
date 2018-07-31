@@ -1,8 +1,5 @@
 #include <iostream>
 #include <assert.h>
-#include "models/tip_info.h"
-#include "models/sudoku_field.h"
-#include "models/sudoku_tip_field.h"
 #include "sudoku_solver.h"
 
 SudokuSolver::SudokuSolver()
