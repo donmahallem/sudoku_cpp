@@ -1,7 +1,7 @@
 #include <iostream>
 #include "gtest/gtest.h"
 
-#include "models/tip_info.h"
+#include "../src/models/tip_info.h"
 
 // The fixture for testing class Project1. From google test primer.
 class TipInfoTest : public ::testing::Test
