@@ -59,7 +59,7 @@ buildall: $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o build/out -I src
 
 $(TEST_BUILD_DIR)/%.o: test/%.cpp Makefile.mk
-	$(CXX) $(CXXFLAGS) $< -c -o $@ -I googletest/googletest/include  -I src -I src/models
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $< -c -o $@ -I googletest/googletest/include  -I src -I src/models
 
 $(TEST_BUILD_DIR): $(TEST_OBJECTS)
 
