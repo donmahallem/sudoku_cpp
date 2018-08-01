@@ -8,15 +8,15 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
-    - llvm-toolchain-precise-3.8
+    - llvm-toolchain-precise-5
     packages:
     - g++-7
-    - clang-3.8
+    - clang-5
 before_install:
   - pip install --user cpp-coveralls
 install:
 - "[ $CXX = g++ ] && export CXX=g++-7 || true"
-- "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
+- "[ $CXX = clang++ ] && export CXX=clang++-5 || true"
 script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - make -f Makefile.mk test
