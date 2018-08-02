@@ -27,6 +27,8 @@ matrix:
         - CXX = "clang++-5.0"
         - COVXX = "gcov-7"
         - G_CPP_FLAGS = "-fprofile-instr-generate -fcoverage-mapping"
+  script:
+    - echo $G_CPP_FLAGS
 before_install:
   - pip install --user cpp-coveralls
 install:
