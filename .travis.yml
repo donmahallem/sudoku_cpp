@@ -28,3 +28,4 @@ after_success:
   - lcov --list coverage.info
   - ls -d buildTest/*
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
