@@ -15,14 +15,14 @@ addons:
 before_install:
   - pip install --user cpp-coveralls
 install:
-- "[ $CXX = g++ ] && export CXX=g++-7 || true"
-- "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true"
+- "[ $CXX = g++ ] && export CXX=g++-7 || true && export CXX_COV=gcov-7 || true"
+- "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
 script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - make -f Makefile.mk test
   - buildTest/test.exe
 #  - make test
 after_success:
-  - gcov-7 buildTest/*
+  - ${CXX_COV} buildTest/*
   - ls -d buildTest/*
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
