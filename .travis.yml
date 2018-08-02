@@ -27,20 +27,19 @@ matrix:
         - CXX = "clang++-5.0"
         - COVXX = "gcov-7"
         - G_CPP_FLAGS = "-fprofile-instr-generate -fcoverage-mapping"
-  script:
-    - echo $G_CPP_FLAGS
 before_install:
   - pip install --user cpp-coveralls
 install:
 - "[ $CXX = g++ ] && export CXX=g++-7 || true && export CXX_COV=gcov-7 || true"
 - "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
 script:
+  - echo [$G_CPP_FLAGS]
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - make -f Makefile.mk test G_CPP_FLAGS=$G_CPP_FLAGS
   - buildTest/test.exe
 #  - make test
 after_success:
-  if: env(CXX) = ~ ^g++
-    - coveralls --root ./ -x gcov --gcov $COVXX -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
-  if: env(CXX) = ~ ^clang
-    - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+  - coveralls --root ./ -x gcov --gcov $COVXX -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
+    if: env(CXX) = ~ ^g++
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+    if: env(CXX) = ~ ^clang
