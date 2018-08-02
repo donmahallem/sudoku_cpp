@@ -3,7 +3,7 @@ sudo: false
 language: cpp
 compiler:
   - gcc
-  - clang
+#  - clang
 addons:
   apt:
     sources:
@@ -25,3 +25,4 @@ script:
 #  - make test
 after_success:
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
