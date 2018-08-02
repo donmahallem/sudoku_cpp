@@ -25,4 +25,4 @@ script:
 after_success:
   - gcov-7 buildTest/*
   - ls -d buildTest/*
-  - coveralls --root ./ -i buildTest -n -x gcov -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
+  - coveralls --root ./ -i ./buildTest -n -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
