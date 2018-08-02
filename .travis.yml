@@ -12,6 +12,7 @@ addons:
     packages:
     - g++-7
     - clang-5.0
+    - lcov
 before_install:
   - pip install --user cpp-coveralls
 install:
