@@ -19,12 +19,14 @@ matrix:
         - CXX = "g++-7"
         - CC = "gcc-7"
         - COVXX = "gcov-7"
+        - G_CPP_FLAGS = "-fprofile-arcs -ftest-coverage"
     - os: linux
       compiler: clang
       env:
         - CC = "clang-5.0"
         - CXX = "clang++-5.0"
         - COVXX = "gcov-7"
+        - G_CPP_FLAGS = "-fprofile-instr-generate -fcoverage-mapping"
 before_install:
   - pip install --user cpp-coveralls
 install:
