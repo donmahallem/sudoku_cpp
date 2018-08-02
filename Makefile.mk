@@ -32,9 +32,9 @@ clean:
 #	$(CXX) $(CXXFLAGS) $< -c -o $@
 
 build/%.o : src/%.cpp Makefile.mk
-	$(CXX) $(CXXFLAGS) $< -c -o $@
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $< -c -o $@
 build/models/%.o : src/models/%.cpp Makefile.mk
-	$(CXX) $(CXXFLAGS) $< -c -o $@
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $< -c -o $@
 
 a: $(OBJECTS)
 
