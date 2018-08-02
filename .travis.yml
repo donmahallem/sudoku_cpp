@@ -24,6 +24,7 @@ script:
   - buildTest/test.exe
 #  - make test
 after_success:
-  - lcov buildTest/*
+  - lcov --directory . --capture --output-file coverage.info
+  - lcov --list coverage.info
   - ls -d buildTest/*
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
