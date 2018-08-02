@@ -30,10 +30,11 @@ matrix:
 before_install:
   - pip install --user cpp-coveralls
 install:
-  - ls
+- "[ $CXX = g++ ] && export CXX=g++-7 || true && export CXX_COV=gcov-7 || true"
+- "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
 script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
-  - make -f Makefile.mk test
+  - make -f Makefile.mk test G_CPP_FLAGS=$G_CPP_FLAGS
   - buildTest/test.exe
 #  - make test
 after_success:
