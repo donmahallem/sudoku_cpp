@@ -23,6 +23,6 @@ script:
   - buildTest/test.exe
 #  - make test
 after_success:
-  - gcov buildTest/*
+  - gcov-7 buildTest/*
   - ls -d buildTest/*
   - coveralls --root ./ -i buildTest -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
