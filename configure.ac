@@ -23,10 +23,10 @@ AC_ARG_ENABLE(coverage,
 #AM_CONDITIONAL(CPPCOVERAGEFLAGS, test x$flag_gen_coverage = xtrue)
 
 if test "$flag_gen_coverage" = "yes" && test "$use_clang" = "no" ; then
-    AC_SUBST(CPPCOVERAGEFLAGS,'-fprofile-arcs -ftest-coverage')
+    AC_SUBST(CPPCOVERAGEFLAGS,'-fprofile-arcs -ftest-coverage -pthread -isystem googletest/googletest/include')
 fi
 if test "$flag_gen_coverage" = "yes" && test "$use_clang" = "yes" ; then
-    AC_SUBST(CPPCOVERAGEFLAGS,'-fprofile-instr-generate -fcoverage-mapping')
+    AC_SUBST(CPPCOVERAGEFLAGS,'-fprofile-instr-generate -fcoverage-mapping -pthread -isystem googletest/googletest/include')
 fi
 
 # Output the generated files. No further autoconf macros may be used.
