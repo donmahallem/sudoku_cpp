@@ -25,6 +25,7 @@ matrix:
         - COVXX = "gcov-7"
 before_install:
   - pip install --user cpp-coveralls
+  - mkdir build-aux
   - aclocal
   - automake --add-missing
   - autoconf
@@ -33,7 +34,6 @@ install:
 - "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
 script:
   - echo $GCPPFLAGS
-  - mkdir build-aux
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - ./configure --enable-coverage
   - make
