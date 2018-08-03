@@ -31,14 +31,17 @@ matrix:
         - IS_GCC = FALSE
 before_install:
   - pip install --user cpp-coveralls
+  - aclocal
+  - automake --add-missing
+  - autoconf
 install:
 - "[ $CXX = g++ ] && export CXX=g++-7 || true && export CXX_COV=gcov-7 || true"
 - "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
 script:
   - echo $GCPPFLAGS
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
-  - make -f Makefile.mk test G_CPP_FLAGS=$GCPPFLAGS
-  - buildTest/test.exe
+  - ./configure --enable-coverage
+  - make
 #  - make test
 after_success:
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
