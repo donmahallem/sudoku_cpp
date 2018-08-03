@@ -42,6 +42,4 @@ script:
 #  - make test
 after_success:
   - coveralls --root ./ -x gcov --gcov $COVXX -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
-    if: env(CXX) = ~ ^g++
   - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-    if: env(CXX) = ~ ^clang
