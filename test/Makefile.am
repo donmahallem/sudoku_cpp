@@ -20,12 +20,16 @@ GTESTSRCS = $(GTESTDIR)/src/*.cc $(GTESTDIR)/src/*.h $(GTESTHEADERS)
 
 CXXFLAGS = -Wall -std=gnu++11 -g -isystem $(GTESTDIR)/include
 
-
-all: $(TESTOBJECTS) $(filter-out $(BUILDDIR)/main.o, $(OBJECTS)) $(TESTBUILDDIR)/gtest_main.a
+buildTestFile: $(TESTOBJECTS) $(filter-out $(BUILDDIR)/main.o, $(OBJECTS)) $(TESTBUILDDIR)/gtest_main.a
 	@echo NO IDEA $(OBJECTS)
 	@echo NO IDEA2 $(TESTOBJECTS)
 	@echo NO IDEA3 $(filter-out $(BUILDDIR)/main.o, $(OBJECTS))
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $(TESTBUILDDIR)/test.exe
+	@echo NO IDEA3 $(TESTBUILDDIR)/gtest_main.a $(RANDOMDAT)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) -lpthread $^ -o $(TESTBUILDDIR)/test
+
+buildGtestLib: $(TESTBUILDDIR)/gtest_main.a
+
+all: buildTestFile
 
 clean:
 	$(RM) $(ALL) *.o

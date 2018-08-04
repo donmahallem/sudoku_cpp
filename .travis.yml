@@ -37,7 +37,8 @@ script:
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
   - ./configure --enable-coverage
   - make
-#  - make test
+  - make test
+  - ./buildTest/text
 after_success:
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
   - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
