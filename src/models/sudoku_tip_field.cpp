@@ -110,13 +110,26 @@ bool SudokuTipField::rowContains(short row, short value)
     assert(value >= 1 && value <= 9);
     return this->rows[row].get(value);
 }
+bool SudokuTipField::columnContains(short column, short value)
+{
+    assert(column >= 0 && column < 9);
+    assert(value >= 1 && value <= 9);
+    return this->columns[column].get(value);
+}
+bool SudokuTipField::blockContains(short x, short y, short value)
+{
+    assert(x >= 0 && x < 3);
+    assert(y >= 0 && y < 3);
+    assert(value >= 1 && value <= 9);
+    return this->blocks[y * 3 + x].get(value);
+}
 void SudokuTipField::reset()
 {
     for (short x = 0; x < this->SIZE; x++)
     {
-        this->rows[0].reset();
-        this->blocks[0].reset();
-        this->columns[0].reset();
+        this->rows[x].reset();
+        this->blocks[x].reset();
+        this->columns[x].reset();
     }
 };
 
