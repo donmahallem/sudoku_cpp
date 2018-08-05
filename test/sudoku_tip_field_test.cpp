@@ -53,4 +53,15 @@ TEST_F(SudokuTipFieldTest, setRowContains)
     }
 }
 
+TEST_F(SudokuTipFieldTest, getTips)
+{
+    p.setRowContains(2, 1);
+    p.setColumnContains(1, 2);
+    p.setBlockContains(0, 0, 3);
+    TipInfo tip = p.getTips(1, 2);
+    for (short i = 1; i <= 9; i++)
+    {
+        EXPECT_EQ(tip.get(i), i <= 3) << "Expected " << i << " to be " << (i <= 3);
+    }
+}
 // }  // namespace - could surround Project1Test in a namespace
