@@ -40,7 +40,7 @@ class TipInfoTest : public ::testing::Test
 
 // Test case must be called the class above
 // Also note: use TEST_F instead of TEST to access the test fixture (from google test primer)
-TEST_F(TipInfoTest, MethodBarDoesAbc)
+TEST_F(TipInfoTest, testSetAndGet)
 {
     int i = 1;
     p.set(i, true); // we have access to p, declared in the fixture
