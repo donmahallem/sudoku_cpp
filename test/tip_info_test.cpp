@@ -77,3 +77,32 @@ TEST_F(TipInfoTest, unequalOperator)
     p2.set(2, true);
     EXPECT_EQ(p != p2, false);
 }
+TEST_F(TipInfoTest, orOperator)
+{
+    TipInfo p1;
+    p.set(4, true);
+    p1.set(2, true);
+
+    TipInfo p2 = p | p1;
+    for (short i = 1; i <= 9; i++)
+    {
+        if (i == 2)
+        {
+            EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p1.get(i), true) << "Expected " << i << "to be true";
+            EXPECT_EQ(p2.get(i), true) << "Expected " << i << "to be true";
+        }
+        else if (i == 4)
+        {
+            EXPECT_EQ(p.get(i), true) << "Expected " << i << "to be true";
+            EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p2.get(i), true) << "Expected " << i << "to be true";
+        }
+        else
+        {
+            EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p2.get(i), false) << "Expected " << i << "to be false";
+        }
+    }
+}
