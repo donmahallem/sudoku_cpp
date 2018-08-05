@@ -41,7 +41,7 @@ class SudokuFieldTest : public ::testing::Test
 
 // Test case must be called the class above
 // Also note: use TEST_F instead of TEST to access the test fixture (from google test primer)
-TEST_F(SudokuFieldTest, setRowContains)
+TEST_F(SudokuFieldTest, set)
 {
     for (short x = 0; x < 9; x++)
     {
@@ -55,6 +55,63 @@ TEST_F(SudokuFieldTest, setRowContains)
         for (short y = 0; y < 9; y++)
         {
             EXPECT_EQ(p.get(x, y), ((x + y) % 9) + 1);
+        }
+    }
+}
+TEST_F(SudokuFieldTest, rowContains)
+{
+    for (short x = 0; x < 9; x++)
+    {
+        p.set(x, x, x + 1);
+    }
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 1; y <= 9; y++)
+        {
+            EXPECT_EQ(p.rowContains(x, y), y == x + 1);
+        }
+    }
+}
+TEST_F(SudokuFieldTest, columnContains)
+{
+    for (short x = 0; x < 9; x++)
+    {
+        p.set(x, x, x + 1);
+    }
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 1; y <= 9; y++)
+        {
+            EXPECT_EQ(p.columnContains(x, y), y == x + 1);
+        }
+    }
+}
+TEST_F(SudokuFieldTest, blockContainsByBlock)
+{
+    for (short x = 0; x < 9; x++)
+    {
+        p.set(x, x, x + 1);
+    }
+    for (short block = 0; block < 9; block++)
+    {
+        short x = block % 3;
+        short y = block / 3;
+        if (block % 4 == 0)
+        {
+            short startValue = (x * 3) + 1;
+            short endValue = startValue + 2;
+            for (short value = 1; value <= 9; value++)
+            {
+
+                EXPECT_EQ(p.blockContainsByBlock(x, y, value), value >= startValue && value <= endValue);
+            }
+        }
+        else
+        {
+            for (short value = 1; value <= 9; value++)
+            {
+                EXPECT_EQ(p.blockContainsByBlock(x, y, value), false);
+            }
         }
     }
 }

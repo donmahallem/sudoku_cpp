@@ -21,7 +21,7 @@ SudokuField::SudokuField()
 SudokuField::~SudokuField()
 {
     //delete this->field;
-    std::cout << "SudoField.Destructor" << std::endl;
+    //std::cout << "SudoField.Destructor" << std::endl;
 }
 
 short SudokuField::get(short x, short y) const
