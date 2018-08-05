@@ -55,3 +55,15 @@ TEST_F(TipInfoTest, getNumOptions)
         EXPECT_EQ(p.getNumOptions(), 9 - i);
     }
 }
+TEST_F(TipInfoTest, equalOperator)
+{
+    TipInfo p1;
+    TipInfo p2;
+    p.set(2, true);
+    p1.set(2, true);
+    p2.set(2, true);
+    EXPECT_EQ(p == p, true);
+    EXPECT_EQ(p == p1, true);
+    p2.set(5, true);
+    EXPECT_EQ(p == p2, false);
+}
