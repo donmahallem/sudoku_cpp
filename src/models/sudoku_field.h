@@ -21,6 +21,7 @@ class SudokuField
     bool columnContains(short column, short value);
     bool blockContainsByBlock(short block_x, short block_y, short value);
     bool blockContains(short x, short y, short value);
+    void clear();
 };
 
 #endif

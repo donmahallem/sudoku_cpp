@@ -137,3 +137,13 @@ void SudokuField::print()
         std::cout << std::endl;
     }
 };
+void SudokuField::clear()
+{
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            this->field[x][y] = 0;
+        }
+    }
+};

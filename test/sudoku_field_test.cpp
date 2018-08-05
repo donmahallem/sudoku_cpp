@@ -32,7 +32,7 @@ class SudokuFieldTest : public ::testing::Test
     {
         // Code here will be called immediately after each test (right
         // before the destructor).
-        p.reset();
+        p.clear();
     }
 
     // Objects declared here can be used by all tests in the test case for Project1.
