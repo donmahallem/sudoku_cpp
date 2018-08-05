@@ -72,7 +72,7 @@ TEST_F(TipInfoTest, unequalOperator)
     TipInfo p1;
     TipInfo p2;
     p.set(2, true);
-    EXPECT_EQ(p != p, true);
+    EXPECT_EQ(p != p, false);
     EXPECT_EQ(p != p1, true);
     p2.set(2, true);
     EXPECT_EQ(p != p2, false);
