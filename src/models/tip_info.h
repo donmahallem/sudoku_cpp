@@ -20,6 +20,7 @@ class TipInfo
     friend std::ostream &operator<<(std::ostream &out, const TipInfo &tipInfo);
     friend TipInfo &operator|(const TipInfo &lhs, const TipInfo &rhs);
     bool operator==(const TipInfo &rhs);
+    bool operator!=(const TipInfo &rhs);
 };
 
 #endif

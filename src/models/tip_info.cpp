@@ -54,6 +54,17 @@ bool TipInfo::operator==(const TipInfo &rhs)
     }
     return true;
 }
+bool TipInfo::operator!=(const TipInfo &rhs)
+{
+    for (short i = 1; i <= 9; i++)
+    {
+        if (this->get(i) != rhs.get(i))
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 TipInfo &operator|(const TipInfo &lhs, const TipInfo &rhs)
 {

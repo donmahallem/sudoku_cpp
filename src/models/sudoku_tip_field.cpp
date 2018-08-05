@@ -104,6 +104,12 @@ void SudokuTipField::setColumnContains(short column, short value)
     this->columns[column].set(value, true);
 };
 
+bool SudokuTipField::rowContains(short row, short value)
+{
+    assert(row >= 0 && row < 9);
+    assert(value >= 1 && value <= 9);
+    return this->rows[row].get(value);
+}
 void SudokuTipField::reset()
 {
     for (short x = 0; x < this->SIZE; x++)

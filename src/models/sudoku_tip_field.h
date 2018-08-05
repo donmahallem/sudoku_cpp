@@ -29,6 +29,7 @@ class SudokuTipField
     void setRowContains(short row, short value);
     void setColumnContains(short column, short value);
     bool isValueBlocked(short x, short y, short value);
+    bool rowContains(short row, short value);
     TipInfo getTips(short x, short y);
 };
 

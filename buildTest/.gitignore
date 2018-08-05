@@ -1,3 +1,5 @@
 *.a
 *.exe
 *.o
+*.gcda
+*.gcno

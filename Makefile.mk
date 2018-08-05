@@ -13,7 +13,7 @@ OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 TEST_SOURCES = $(wildcard $(TEST_SRC_DIR)/*.cpp)\
 	 $(wildcard $(TEST_SRC_DIR)/models/*.cpp)
 TEST_OBJECTS = $(patsubst $(TEST_SRC_DIR)/%.cpp,$(TEST_BUILD_DIR)/%.o,$(TEST_SOURCES))
-CPPFLAGS += -isystem $(GTEST_DIR)/include -pthread -fprofile-arcs -ftest-coverage
+CPPFLAGS += -isystem $(GTEST_DIR)/include -pthread $(G_CPP_FLAGS)
 GTEST_DIR = googletest/googletest
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
                 $(GTEST_DIR)/include/gtest/internal/*.h

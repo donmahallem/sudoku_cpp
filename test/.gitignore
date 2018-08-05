@@ -1,3 +1,2 @@
-*
-!.gitignore
-!MakefileTest.mk
+Makefile.in
+Makefile

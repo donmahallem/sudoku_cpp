@@ -1,8 +1,6 @@
 
 sudo: false
 language: cpp
-compiler:
-  - gcc
 #  - clang
 addons:
   apt:
@@ -13,16 +11,35 @@ addons:
     - g++-7
     - clang-5.0
     - lcov
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      env:
+        - CXX = "g++-7"
+        - COVXX = "gcov-7"
+    - os: linux
+      compiler: clang
+      env:
+        - CXX = "clang++-5.0"
+        - COVXX = "gcov-7"
 before_install:
   - pip install --user cpp-coveralls
+  - mkdir build-aux
+  - aclocal
+  - automake --add-missing
+  - autoconf
 install:
 - "[ $CXX = g++ ] && export CXX=g++-7 || true && export CXX_COV=gcov-7 || true"
 - "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
 script:
+  - echo $GCPPFLAGS
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
-  - make -f Makefile.mk test
-  - buildTest/test.exe
-#  - make test
+  - ./configure --enable-coverage
+  - make
+  - make test
+  - ls buildTest
+  - ./buildTest/test
 after_success:
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
-  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+  - bash <(curl -s https://codecov.io/bash) -x gcov-7 || echo "Codecov did not collect coverage reports"
