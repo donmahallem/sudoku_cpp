@@ -14,7 +14,7 @@ TipInfo::~TipInfo()
 
 bool TipInfo::get(short value) const
 {
-    assert(value >= 1 || value <= 9);
+    assert(value >= 1 && value <= 9);
     return this->info[value - 1];
 };
 
