@@ -115,5 +115,25 @@ TEST_F(SudokuFieldTest, blockContainsByBlock)
         }
     }
 }
+TEST_F(SudokuFieldTest, copyPointer)
+{
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            p.set(x, y, (x + y) % 10);
+        }
+    }
+    SudokuField p2;
+    p2.copy(&p);
+    //EXPECT_EQ(p == p2, true);
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            EXPECT_EQ(p.get(x, y), p2.get(x, y));
+        }
+    }
+}
 
 // }  // namespace - could surround Project1Test in a namespace
