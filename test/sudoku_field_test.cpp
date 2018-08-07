@@ -156,5 +156,16 @@ TEST_F(SudokuFieldTest, copyDirect)
         }
     }
 }
+TEST_F(SudokuFieldTest, print)
+{
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            p.set(x, y, (x + y) % 10);
+        }
+    }
+    p.print();
+}
 
 // }  // namespace - could surround Project1Test in a namespace
