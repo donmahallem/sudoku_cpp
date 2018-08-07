@@ -1,17 +1,18 @@
 CXXFLAGS = -Wall -std=gnu++11 -g
 
 
-SRCDIR = ./
+SRCDIR = ../src
 BUILDDIR = ../build
-BUILDDIREMSCRIPTEN = ../buildEmscripten
+BUILDDIREMSCRIPTEN = ../buildWeb
 TARGET = main
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)\
 	 $(wildcard $(SRCDIR)/models/*.cpp)
 OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
 OBJECTSEMSCRIPTEN = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIREMSCRIPTEN)/%.bc,$(SOURCES))
 TESTOBJECTS = $(patsubst $(TESTSRCDIR)/%.cpp,$(TESTBUILDDIR)/%.o,$(TEST_SOURCES))
-all: $(OBJECTS) Makefile.am Makefile
 
+
+OBJECTSNOMAIN = $(filter-out $(BUILDDIREMSCRIPTEN)/main.o, $(OBJECTSEMSCRIPTEN))
 clean:
 	$(RM) $(ALL) *.o
 
@@ -27,12 +28,14 @@ $(BUILDDIR)/models/%.o : $(SRCDIR)/models/%.cpp
 
 # EMSCRIPTEN SPECIFIC
 $(BUILDDIREMSCRIPTEN)/%.bc : $(SRCDIR)/%.cpp
+	@mkdir -p $(@D)
 	emcc -O2 $< -o $@
 $(BUILDDIREMSCRIPTEN)/models/%.bc : $(SRCDIR)/models/%.cpp
+	@mkdir -p $(@D)
 	emcc -O2 $< -o $@
 
-buildEmscripten: Makefile.am
+buildEmscripten: $(OBJECTSNOMAIN)
 #	emcc -02 $^ -o $(BUILDDIREMSCRIPTEN)/project.html
-	em++ --bind -o $(BUILDDIREMSCRIPTEN)/quick_example.js web.cpp --std=c++11
+	em++ --bind -o $(BUILDDIREMSCRIPTEN)/quick_example.js web.cpp $(OBJECTSNOMAIN) --std=c++11
 
 html: buildEmscripten Makefile.am
