@@ -32,6 +32,24 @@ before_install:
 install:
 - "[ $CXX = g++ ] && export CXX=g++-7 || true && export CXX_COV=gcov-7 || true"
 - "[ $CXX = clang++ ] && export CXX=clang++-5.0 || true && export CXX_COV=clang++-5.0 || true"
+
+stages:
+  - compile
+  - test
+
+jobs:
+  include:
+    - stage: compile
+      script: 
+        - ./configure --enable-coverage
+        - make test
+        - ./buildTest/test
+    - stage: compile
+      script:
+        - ./configure --enable-coverage
+        - make web
+    - stage: test
+      script: true
 script:
   - echo $GCPPFLAGS
 #  - g++ -g src/main.cpp src/models/sudoku_field.cpp src/models/sudoku_tip_field.cpp src/models/tip_info.cpp src/sudoku_solver.cpp
@@ -40,6 +58,7 @@ script:
   - make test
   - ls buildTest
   - ./buildTest/test
+  - make web
 after_success:
   - coveralls --root ./ -x gcov --gcov gcov-7 -E ".*gtest.*" -E ".*CMakeFiles.*" --verbose
   - bash <(curl -s https://codecov.io/bash) -x gcov-7 || echo "Codecov did not collect coverage reports"
