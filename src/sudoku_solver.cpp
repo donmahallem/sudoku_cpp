@@ -22,19 +22,28 @@ void SudokuSolver::solve(const SudokuField &input, SudokuField *output)
 }
 void SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
 {
-    for (short i = 0; i < 3; i++)
+    for (short i = 0; i < 4; i++)
     {
         bool found = false;
+
+        //field->print();
         switch (i)
         {
         case 0:
+            std::cout << "Check single opts" << std::endl;
             found |= this->findSingleOptions(field, tipField);
             break;
         case 1:
+            std::cout << "Check rows" << std::endl;
             found |= this->findSingleOptionsForRows(field, tipField);
             break;
         case 2:
+            std::cout << "Check columns" << std::endl;
             found |= this->findSingleOptionsForColumns(field, tipField);
+            break;
+        case 3:
+            std::cout << "Check blocks" << std::endl;
+            found |= this->findSingleOptionsForBlocks(field, tipField);
             break;
         }
         if (found)
@@ -48,10 +57,130 @@ void SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
 
 bool SudokuSolver::findSingleOptionsForColumns(SudokuField *sudokuField, SudokuTipField *tipField)
 {
-    return false;
+    bool ret = false;
+    for (short i = 0; i < 9; i++)
+    {
+        ret |= this->findSingleOptionsForColumn(sudokuField, tipField, i);
+    }
+    return ret;
 }
 bool SudokuSolver::findSingleOptionsForRows(SudokuField *sudokuField, SudokuTipField *tipField)
 {
+    bool ret = false;
+    for (short i = 0; i < 9; i++)
+    {
+        ret |= this->findSingleOptionsForRow(sudokuField, tipField, i);
+    }
+    return ret;
+}
+bool SudokuSolver::findSingleOptionsForBlocks(SudokuField *sudokuField, SudokuTipField *tipField)
+{
+    bool ret = false;
+    for (short i = 0; i < 9; i++)
+    {
+        //std::cout << "Row " << i << std::endl;
+        ret |= this->findSingleOptionsForBlock(sudokuField, tipField, i);
+    }
+    return ret;
+}
+bool SudokuSolver::findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTipField *tipField, short column)
+{
+    short opts = 0;
+    short lastOp = 0;
+    for (short value = 1; value <= 9; value++)
+    {
+        opts = 0;
+        lastOp = 0;
+        //std::cout << "Check value " << value << std::endl;
+        if (tipField->columnContains(column, value))
+        {
+            //std::cout << "Column " << column << " contains " << value << std::endl;
+            continue;
+        }
+        for (short row = 0; row < 9; row++)
+        {
+            if (!tipField->rowContains(row, value))
+            {
+                opts += 1;
+                lastOp = row;
+            }
+        }
+        if (opts == 1)
+        {
+            sudokuField->set(column, lastOp, value);
+            return true;
+        }
+    }
+    return false;
+}
+bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipField *tipField, short row)
+{
+    short opts = 0;
+    short lastOp = 0;
+    for (short value = 1; value <= 9; value++)
+    {
+        opts = 0;
+        lastOp = 0;
+        //std::cout << "Check value " << value << std::endl;
+        if (tipField->rowContains(row, value))
+        {
+            //std::cout << "Column " << column << " contains " << value << std::endl;
+            continue;
+        }
+        for (short column = 0; column < 9; column++)
+        {
+            if (!tipField->columnContains(column, value))
+            {
+                opts += 1;
+                lastOp = column;
+            }
+        }
+        if (opts == 1)
+        {
+            std::cout << "set " << lastOp << "|" << row << " value: " << value << std::endl;
+            sudokuField->set(lastOp, row, value);
+            return true;
+        }
+    }
+    return false;
+}
+bool SudokuSolver::findSingleOptionsForBlock(SudokuField *sudokuField, SudokuTipField *tipField, short block)
+{
+    const short minX = (block % 3) * 3;
+    const short minY = (block / 3) * 3;
+    const short maxX = minX + 3;
+    const short maxY = minY + 3;
+    short opts = 0;
+    short lastX = 0;
+    short lastY = 0;
+    for (short value = 1; value <= 9; value++)
+    {
+        opts = 0;
+        lastX = 0;
+        lastY = 0;
+        if (tipField->blockContains(block % 3, block / 3, value))
+        {
+            continue;
+        }
+        for (short x = minX; x < maxX; x++)
+        {
+            for (short y = minY; y < maxY; y++)
+            {
+                if (tipField->rowContains(y, value) || tipField->columnContains(x, value))
+                {
+                    continue;
+                }
+                opts += 1;
+                lastX = x;
+                lastY = y;
+            }
+        }
+        if (opts == 1)
+        {
+            sudokuField->set(lastX, lastY, value);
+            return true;
+        }
+    }
     return false;
 }
 bool SudokuSolver::findSingleOptions(SudokuField *sudokuField, SudokuTipField *tipField)
@@ -71,12 +200,13 @@ bool SudokuSolver::findSingleOptions(SudokuField *sudokuField, SudokuTipField *t
             //std::cout << "Options " << x << "," << y << " " << info.getNumOptions() << std::endl;
             if (info.getNumOptions() == 1)
             {
-                for (short z = 1; z <= 9; z++)
+                for (short value = 1; value <= 9; value++)
                 {
-                    if (info.get(z) == false)
+                    if (info.get(value) == false)
                     {
-                        std::cout << "Value set" << x << "," << y << " " << z << std::endl;
-                        sudokuField->set(x, y, z);
+                        //std::cout << "Value set" << x << "," << y << " " << z << std::endl;
+                        std::cout << "set " << x << "|" << y << " value: " << value << std::endl;
+                        sudokuField->set(x, y, value);
                         foundOptions++;
                         break;
                     }
