@@ -135,7 +135,7 @@ bool SudokuField::isValid()
         optsX = 0;
         optsY = 0;
         optsB = 0;
-        for (short value = 0; value < 9; value++)
+        for (short value = 1; value <= 9; value++)
         {
             short startBlockX = (i % 3) * 3;
             short startBlockY = (i / 3) * 3;

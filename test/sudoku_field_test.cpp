@@ -170,5 +170,21 @@ TEST_F(SudokuFieldTest, outOperator)
     std::string s = out.str();
     EXPECT_STREQ(s.c_str(), "\nField\n012|345|678\n123|456|789\n234|567|890\n-----------\n345|678|901\n456|789|012\n567|890|123\n-----------\n678|901|234\n789|012|345\n890|123|456\n");
 }
+TEST_F(SudokuFieldTest, isValid)
+{
+    for (short x = 0; x < 8; x++)
+    {
+        p.clear();
+        p.set(x, 0, x + 1);
+        p.set(x + 1, 0, x + 1);
+        EXPECT_EQ(p.isValid(), false) << x << "row should have duplicate";
+        p.clear();
+        p.set(0, x, x + 1);
+        p.set(0, x + 1, x + 1);
+        EXPECT_EQ(p.isValid(), false) << x << "column should have duplicate";
+    }
+    p.clear();
+    EXPECT_EQ(p.isValid(), true) << "Empty field should be valid";
+}
 
 // }  // namespace - could surround Project1Test in a namespace
