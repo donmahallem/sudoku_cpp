@@ -26,4 +26,4 @@ $(BUILDDIR)/models/%.o : $(SRCDIR)/models/%.cpp
 
 
 buildExecutable: $(OBJECTS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $(BUILDDIR)/test
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) $^ -o $(BUILDDIR)/test
