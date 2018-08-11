@@ -125,6 +125,46 @@ void SudokuField::clear()
         }
     }
 };
+bool SudokuField::isValid()
+{
+    short optsX = 0;
+    short optsY = 0;
+    short optsB = 0;
+    for (short i = 0; i < 9; i++)
+    {
+        optsX = 0;
+        optsY = 0;
+        optsB = 0;
+        for (short value = 0; value < 9; value++)
+        {
+            short startBlockX = (i % 3) * 3;
+            short startBlockY = (i / 3) * 3;
+            for (short j = 0; j < 9; j++)
+            {
+                // Check column for duplicates
+                if (this->field[i][j] == value)
+                {
+                    optsX += 1;
+                }
+                // Check row for duplicates
+                if (this->field[j][i] == value)
+                {
+                    optsY += 1;
+                }
+                // Check block for duplicates
+                if (this->field[startBlockX + (j % 3)][startBlockY + (j / 3)] == value)
+                {
+                    optsB += 1;
+                }
+            }
+        }
+        if (optsX > 1 || optsY > 1 || optsB > 1)
+        {
+            return false;
+        }
+    }
+    return true;
+}
 
 std::ostream &operator<<(std::ostream &out, const SudokuField &field)
 {

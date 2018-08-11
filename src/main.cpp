@@ -31,7 +31,12 @@ int main(int argc, char *argv[])
     }
     std::cout << argv[1] << std::endl;
     SudokuField *f = parseInput(argv[1]);
-    std::cout << f;
+    std::cout << *f;
+    if (!f->isValid())
+    {
+        std::cout << "Error not valid" << std::endl;
+        return 1;
+    }
     SudokuTipField tipField;
     tipField.parse(*f);
     SudokuSolver solver;

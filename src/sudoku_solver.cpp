@@ -22,11 +22,11 @@ void SudokuSolver::solve(const SudokuField &input, SudokuField *output)
 }
 void SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
 {
+    std::cout << *field;
     for (short i = 0; i < 4; i++)
     {
         bool found = false;
 
-        //field->print();
         switch (i)
         {
         case 0:
@@ -115,24 +115,34 @@ bool SudokuSolver::findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTi
 }
 bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipField *tipField, short row)
 {
+    std::cout << "Checking row: " << row << std::endl;
     short opts = 0;
     short lastOp = 0;
     for (short value = 1; value <= 9; value++)
     {
+        std::cout << "Check value: " << value << std::endl;
         opts = 0;
         lastOp = 0;
         //std::cout << "Check value " << value << std::endl;
         if (tipField->rowContains(row, value))
         {
+            //std::cout << "== Row contains " << value << std::endl;
             //std::cout << "Column " << column << " contains " << value << std::endl;
             continue;
         }
+        std::cout << "== Row does not contain " << value << std::endl;
         for (short column = 0; column < 9; column++)
         {
             if (!tipField->columnContains(column, value))
             {
                 opts += 1;
                 lastOp = column;
+                std::cout << "== Column " << column << " does not contain " << value << std::endl;
+            }
+            else
+            {
+
+                //std::cout << "== Column " << column << " contains " << value << std::endl;
             }
         }
         if (opts == 1)
@@ -140,6 +150,10 @@ bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipFi
             std::cout << "set " << lastOp << "|" << row << " value: " << value << std::endl;
             sudokuField->set(lastOp, row, value);
             return true;
+        }
+        else
+        {
+            std::cout << "== Options found " << opts << std::endl;
         }
     }
     return false;
