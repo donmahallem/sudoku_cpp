@@ -42,12 +42,12 @@ jobs:
     - stage: compile
       script: 
         - ./configure --enable-coverage
-        - make test
+        - make
         - ./buildTest/test
     - stage: compile
       script:
         - ./configure --enable-coverage
-        - make web
+        - make
     - stage: test
       script: true
 script:
