@@ -10,8 +10,6 @@ class SudokuField
     SudokuField();
     ~SudokuField();
 
-    void print();
-
     void copy(SudokuField &field);
     void copy(SudokuField *field);
     void copy(const SudokuField &field);
@@ -22,6 +20,8 @@ class SudokuField
     bool blockContainsByBlock(short block_x, short block_y, short value);
     bool blockContains(short x, short y, short value);
     void clear();
+
+    friend std::ostream &operator<<(std::ostream &out, const SudokuField &tipInfo);
 };
 
 #endif

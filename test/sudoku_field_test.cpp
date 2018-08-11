@@ -156,7 +156,7 @@ TEST_F(SudokuFieldTest, copyDirect)
         }
     }
 }
-TEST_F(SudokuFieldTest, print)
+TEST_F(SudokuFieldTest, outOperator)
 {
     for (short x = 0; x < 9; x++)
     {
@@ -165,7 +165,10 @@ TEST_F(SudokuFieldTest, print)
             p.set(x, y, (x + y) % 10);
         }
     }
-    p.print();
+    std::stringstream out;
+    out << p;
+    std::string s = out.str();
+    EXPECT_STREQ(s.c_str(), "\nField\n012|345|678\n123|456|789\n234|567|890\n-----------\n345|678|901\n456|789|012\n567|890|123\n-----------\n678|901|234\n789|012|345\n890|123|456\n");
 }
 
 // }  // namespace - could surround Project1Test in a namespace

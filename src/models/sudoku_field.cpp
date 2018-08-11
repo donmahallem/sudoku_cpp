@@ -115,28 +115,6 @@ bool SudokuField::blockContains(short x, short y, short value)
     }
     return false;
 }
-void SudokuField::print()
-{
-    std::cout << "Field" << std::endl;
-    for (short y = 0; y < 9; y++)
-    {
-        if (y > 0 && y % 3 == 0)
-        {
-            for (short j = 0; j < 11; j++)
-            {
-                std::cout << "-";
-            }
-            std::cout << std::endl;
-        }
-        for (short x = 0; x < 9; x++)
-        {
-            if (x > 0 && x % 3 == 0)
-                std::cout << "|";
-            std::cout << this->field[x][y];
-        }
-        std::cout << std::endl;
-    }
-};
 void SudokuField::clear()
 {
     for (short x = 0; x < 9; x++)
@@ -147,3 +125,28 @@ void SudokuField::clear()
         }
     }
 };
+
+std::ostream &operator<<(std::ostream &out, const SudokuField &field)
+{
+    out << std::endl
+        << "Field" << std::endl;
+    for (short y = 0; y < 9; y++)
+    {
+        if (y > 0 && y % 3 == 0)
+        {
+            for (short j = 0; j < 11; j++)
+            {
+                out << "-";
+            }
+            out << std::endl;
+        }
+        for (short x = 0; x < 9; x++)
+        {
+            if (x > 0 && x % 3 == 0)
+                out << "|";
+            out << field.field[x][y];
+        }
+        out << std::endl;
+    }
+    return out;
+}

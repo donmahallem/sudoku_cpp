@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
     }
     std::cout << argv[1] << std::endl;
     SudokuField *f = parseInput(argv[1]);
-    f->print();
+    std::cout << f;
     SudokuTipField tipField;
     tipField.parse(*f);
     SudokuSolver solver;
     SudokuField *r2;
     r2 = new SudokuField();
     solver.solve(*f, r2);
-    r2->print();
+    std::cout << r2;
     return 0;
 }

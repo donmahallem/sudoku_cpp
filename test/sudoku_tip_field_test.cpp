@@ -89,4 +89,44 @@ TEST_F(SudokuTipFieldTest, parse)
         }
     }
 }
+
+TEST_F(SudokuTipFieldTest, columnContains)
+{
+    SudokuField field;
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            field.set(x, y, x + 1);
+        }
+    }
+    p.parse(field);
+    for (short i = 0; i < 9; i++)
+    {
+        for (short value = 1; value <= 9; value++)
+        {
+            EXPECT_EQ(p.columnContains(i, value), i + 1 == value) << "Expected column " << i << " to contain " << value;
+        }
+    }
+}
+
+TEST_F(SudokuTipFieldTest, rowContains)
+{
+    SudokuField field;
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            field.set(x, y, x + 1);
+        }
+    }
+    p.parse(field);
+    for (short i = 0; i < 9; i++)
+    {
+        for (short value = 1; value <= 9; value++)
+        {
+            EXPECT_EQ(p.rowContains(i, value), true) << "Expected row " << i << " to contain " << value;
+        }
+    }
+}
 // }  // namespace - could surround Project1Test in a namespace

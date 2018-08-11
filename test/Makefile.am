@@ -1,4 +1,4 @@
-
+.PHONY: all test
 
 
 SRCDIR = ../src
@@ -29,7 +29,10 @@ buildTestFile: $(TESTOBJECTS) $(filter-out $(BUILDDIR)/main.o, $(OBJECTS)) $(TES
 
 buildGtestLib: $(TESTBUILDDIR)/gtest_main.a
 
-all: buildTestFile
+all: $(TESTBUILDDIR)/gtest_main.a test
+	@echo skip
+
+test: buildTestFile Makefile.am
 
 clean:
 	$(RM) $(ALL) *.o
