@@ -125,6 +125,20 @@ void SudokuField::clear()
         }
     }
 };
+bool SudokuField::isSolved()
+{
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            if (this->field[x][y] < 1)
+            {
+                return false;
+            }
+        }
+    }
+    return this->isValid();
+}
 bool SudokuField::isValid()
 {
     short optsX = 0;
@@ -132,11 +146,11 @@ bool SudokuField::isValid()
     short optsB = 0;
     for (short i = 0; i < 9; i++)
     {
-        optsX = 0;
-        optsY = 0;
-        optsB = 0;
         for (short value = 1; value <= 9; value++)
         {
+            optsX = 0;
+            optsY = 0;
+            optsB = 0;
             short startBlockX = (i % 3) * 3;
             short startBlockY = (i / 3) * 3;
             for (short j = 0; j < 9; j++)
@@ -157,10 +171,11 @@ bool SudokuField::isValid()
                     optsB += 1;
                 }
             }
-        }
-        if (optsX > 1 || optsY > 1 || optsB > 1)
-        {
-            return false;
+            if (optsX > 1 || optsY > 1 || optsB > 1)
+            {
+                //std::cout << optsX << "|" << optsY << "|" << optsB << std::endl;
+                return false;
+            }
         }
     }
     return true;

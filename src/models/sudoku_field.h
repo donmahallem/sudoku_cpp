@@ -21,6 +21,7 @@ class SudokuField
     bool blockContains(short x, short y, short value);
     void clear();
     bool isValid();
+    bool isSolved();
 
     friend std::ostream &operator<<(std::ostream &out, const SudokuField &tipInfo);
 };

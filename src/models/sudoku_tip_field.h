@@ -23,6 +23,7 @@ class SudokuTipField
     void print();
     void reset();
     void parse(SudokuField &field);
+    void parse(SudokuField *field);
     const TipInfo &getTipsForRow(const short row) const;
     const TipInfo &getTipsForColumn(const short column) const;
     void setBlockContains(short x, short y, short value);

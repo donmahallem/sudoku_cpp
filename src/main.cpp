@@ -43,6 +43,6 @@ int main(int argc, char *argv[])
     SudokuField *r2;
     r2 = new SudokuField();
     solver.solve(*f, r2);
-    std::cout << r2;
+    std::cout << *r2;
     return 0;
 }

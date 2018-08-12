@@ -32,6 +32,23 @@ void SudokuTipField::parse(SudokuField &field)
         //std::cout << "SudokuTipField->parse()->blocks" << std::endl;
     }
 };
+void SudokuTipField::parse(SudokuField *field)
+{
+    this->reset();
+    for (short value = 1; value <= 9; value++)
+    {
+        //this->checkBlocks(field, value);
+        //this->checkColumns(field, value);
+        //std::cout << "Parse check value " << value << std::endl;
+        //std::cout << "SudokuTipField->parse()->before" << std::endl;
+        this->checkRows(*field, value);
+        //std::cout << "SudokuTipField->parse()->rows" << std::endl;
+        this->checkColumns(*field, value);
+        //std::cout << "SudokuTipField->parse()->columns" << std::endl;
+        this->checkBlocks(*field, value);
+        //std::cout << "SudokuTipField->parse()->blocks" << std::endl;
+    }
+};
 
 const TipInfo &SudokuTipField::getTipsForColumn(const short column) const
 {
