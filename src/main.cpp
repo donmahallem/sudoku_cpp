@@ -2,6 +2,7 @@
 #include "models/sudoku_field.h"
 #include "models/sudoku_tip_field.h"
 #include "sudoku_solver.h"
+#include "sudoku_generator.h"
 
 inline short parseInputChar(char inp)
 {
@@ -43,6 +44,10 @@ int main(int argc, char *argv[])
     SudokuField *r2;
     r2 = new SudokuField();
     solver.solve(*f, r2);
+    std::cout << *r2;
+
+    SudokuGenerator::generate(40, f);
+    std::cout << *f;
     std::cout << *r2;
     return 0;
 }

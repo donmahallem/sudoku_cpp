@@ -1,7 +1,6 @@
 #include <iostream>
 #include <assert.h>
 #include "sudoku_field.h"
-
 void assertRange(short value, short min, short max)
 {
     assert(value >= min && value <= max); // && (std::to_string(min) + "<" + std::to_string(value) + "<" + std::to_string(max)));
@@ -99,6 +98,7 @@ bool SudokuField::blockContainsByBlock(short block_x, short block_y, short value
     assertRange(block_y, 0, 2);
     return this->blockContains(block_x * 3, block_y * 3, value);
 }
+
 bool SudokuField::blockContains(short x, short y, short value)
 {
     assertRange(value, 1, 9);

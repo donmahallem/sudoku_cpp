@@ -19,10 +19,11 @@ void SudokuSolver::solve(const SudokuField &input, SudokuField *output)
     tipField = new SudokuTipField();
     tipField->parse(*output);
     this->solveInternal(output, tipField);
+    delete tipField;
 }
 bool SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
 {
-    std::cout << *field;
+    //std::cout << *field;
     for (short i = 0; i < 5; i++)
     {
         bool found = false;
@@ -30,23 +31,23 @@ bool SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
         switch (i)
         {
         case 0:
-            std::cout << "Check single opts" << std::endl;
+            //std::cout << "Check single opts" << std::endl;
             found |= this->findSingleOptions(field, tipField);
             break;
         case 1:
-            std::cout << "Check rows" << std::endl;
+            //std::cout << "Check rows" << std::endl;
             found |= this->findSingleOptionsForRows(field, tipField);
             break;
         case 2:
-            std::cout << "Check columns" << std::endl;
+            //std::cout << "Check columns" << std::endl;
             found |= this->findSingleOptionsForColumns(field, tipField);
             break;
         case 3:
-            std::cout << "Check blocks" << std::endl;
+            //std::cout << "Check blocks" << std::endl;
             found |= this->findSingleOptionsForBlocks(field, tipField);
             break;
         case 4:
-            std::cout << "Check random" << std::endl;
+            //std::cout << "Check random" << std::endl;
             found |= this->findSingleRandom(field, tipField);
             break;
         }
@@ -81,7 +82,6 @@ bool SudokuSolver::findSingleRandom(SudokuField *sudokuField, SudokuTipField *ti
             }
             if (tipField->getTips(x, y).getNumOptions() == 0)
             {
-                sudokuField->copy(testField);
                 return false;
             }
             for (short value = 1; value <= 9; value++)
@@ -95,13 +95,15 @@ bool SudokuSolver::findSingleRandom(SudokuField *sudokuField, SudokuTipField *ti
                     if (this->solveInternal(testField, tipField))
                     {
                         sudokuField->copy(testField);
+                        delete testField;
                         return true;
                     }
                 }
             }
         }
     }
-    sudokuField->copy(testField);
+    tipField->parse(*sudokuField);
+    delete testField;
     return false;
 }
 bool SudokuSolver::findSingleOptionsForColumns(SudokuField *sudokuField, SudokuTipField *tipField)
