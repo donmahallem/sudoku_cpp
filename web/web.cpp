@@ -5,7 +5,6 @@ using namespace emscripten;
 float lerp(float a, float b, float t)
 {
     SudokuField field;
-    field.print();
     return (1 - t) * a + t * b;
 }
 

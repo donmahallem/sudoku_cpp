@@ -2,6 +2,7 @@
 #define SUDOKU_GENERATOR_H
 #include <iostream>
 #include "models/sudoku_field.h"
+#include "sudoku_solver.h"
 class SudokuGenerator
 {
   public:
@@ -10,6 +11,6 @@ class SudokuGenerator
   private:
     SudokuGenerator();
     ~SudokuGenerator();
+    static SudokuSolver solver;
 };
-
 #endif

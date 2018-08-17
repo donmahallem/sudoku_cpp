@@ -1,5 +1,6 @@
-CXXFLAGS = -Wall -std=gnu++11 -g
+.PHONY: web
 
+CXXFLAGS = -Wall -std=gnu++11 -g
 
 SRCDIR = ../src
 BUILDDIR = ../build
@@ -14,7 +15,7 @@ TESTOBJECTS = $(patsubst $(TESTSRCDIR)/%.cpp,$(TESTBUILDDIR)/%.o,$(TEST_SOURCES)
 
 OBJECTSNOMAIN = $(filter-out $(BUILDDIREMSCRIPTEN)/main.o, $(OBJECTSEMSCRIPTEN))
 clean:
-	$(RM) $(ALL) *.o
+	$(RM) $(ALL) -r $(BUILDDIREMSCRIPTEN)/*
 
 #$(OBJECTS) : $(SOURCES) Makefile.mk
 #	@echo $(SOURCES)
@@ -38,4 +39,4 @@ buildEmscripten: $(OBJECTSNOMAIN)
 #	emcc -02 $^ -o $(BUILDDIREMSCRIPTEN)/project.html
 	em++ --bind -o $(BUILDDIREMSCRIPTEN)/quick_example.js web.cpp $(OBJECTSNOMAIN) --std=c++11
 
-html: buildEmscripten Makefile.am
+all: buildEmscripten

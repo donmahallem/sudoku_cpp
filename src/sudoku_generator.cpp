@@ -34,15 +34,13 @@ void SudokuGenerator::generate(const short missing, SudokuField *output)
         indixes[i] = i;
     }
     std::random_shuffle(std::begin(indixes), std::end(indixes));
-    std::cout << "shuffle rnadoms";
-    SudokuSolver *solver = new SudokuSolver();
-    solver->solve(*field, output);
+    //std::cout << "shuffle rnadoms";
+    SudokuGenerator::solver.solve(*field, output);
     for (short i = 0; i < missing; i++)
     {
-        std::cout << "Shuffle out " << indixes[i] % 9 << " | " << indixes[i] / 9 << std::endl;
+        //std::cout << "Shuffle out " << indixes[i] % 9 << " | " << indixes[i] / 9 << std::endl;
         output->set(indixes[i] % 9, indixes[i] / 9, 0);
     }
-    delete solver;
     delete field;
-    std::cout << "Done";
+    //std::cout << "Done";
 }
