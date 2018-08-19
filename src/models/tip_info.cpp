@@ -4,7 +4,6 @@
 
 TipInfo::TipInfo()
 {
-    this->reset();
 }
 TipInfo::~TipInfo()
 {
@@ -65,18 +64,16 @@ bool TipInfo::operator!=(const TipInfo &rhs)
     }
     return false;
 }
-
-TipInfo &operator|(const TipInfo &lhs, const TipInfo &rhs)
+TipInfo TipInfo::operator|(const TipInfo &rhs) const
 {
-    TipInfo *out = new TipInfo();
-    int opts = 9;
+    TipInfo out;
+    out.numOptions = 9;
     for (short i = 1; i <= 9; i++)
     {
-        out->set(i, lhs.get(i) | rhs.get(i));
-        opts -= (lhs.get(i) | rhs.get(i));
+        out.info[i] = this->info[i] | rhs.info[i];
+        out.numOptions -= this->info[i] | rhs.info[i];
     }
-    out->numOptions = opts;
-    return *out;
+    return out;
 }
 std::ostream &operator<<(std::ostream &out, const TipInfo &info)
 {

@@ -4,8 +4,8 @@
 class TipInfo
 {
   private:
-    bool info[9];
-    short numOptions;
+    bool info[9] = {false, false, false, false, false, false, false, false, false};
+    short numOptions = 9;
 
   public:
     TipInfo();
@@ -18,7 +18,7 @@ class TipInfo
 
   public:
     friend std::ostream &operator<<(std::ostream &out, const TipInfo &tipInfo);
-    friend TipInfo &operator|(const TipInfo &lhs, const TipInfo &rhs);
+    TipInfo operator|(const TipInfo &rhs) const;
     bool operator==(const TipInfo &rhs);
     bool operator!=(const TipInfo &rhs);
 };

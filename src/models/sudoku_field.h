@@ -17,8 +17,8 @@ class SudokuField
     void set(short x, short y, short value);
     bool rowContains(short row, short value);
     bool columnContains(short column, short value);
-    bool blockContainsByBlock(short block_x, short block_y, short value);
-    bool blockContains(short x, short y, short value);
+    bool blockContainsByBlock(const short &block_x, const short &block_y, const short &value);
+    bool blockContains(const short &x, const short &y, const short &value);
     void clear();
     bool isValid();
     bool isSolved();

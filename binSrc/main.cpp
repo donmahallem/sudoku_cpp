@@ -85,5 +85,5 @@ int main(int argc, char *argv[])
         std::cout << *f;
         std::cout << *r2;
     }
-    return 0;
+    return 1;
 }

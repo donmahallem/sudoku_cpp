@@ -92,20 +92,20 @@ bool SudokuField::columnContains(short column, short value)
     }
     return false;
 }
-bool SudokuField::blockContainsByBlock(short block_x, short block_y, short value)
+bool SudokuField::blockContainsByBlock(const short &block_x, const short &block_y, const short &value)
 {
     assertRange(block_x, 0, 2);
     assertRange(block_y, 0, 2);
     return this->blockContains(block_x * 3, block_y * 3, value);
 }
 
-bool SudokuField::blockContains(short x, short y, short value)
+bool SudokuField::blockContains(const short &x, const short &y, const short &value)
 {
     assertRange(value, 1, 9);
     assertRange(x, 0, 8);
     assertRange(y, 0, 8);
-    short startX = (x / 3) * 3;
-    short startY = (y / 3) * 3;
+    const short startX = (x / 3) * 3;
+    const short startY = (y / 3) * 3;
     for (short offset = 0; offset < 9; offset++)
     {
         if (this->field[startX + (offset % 3)][startY + (offset / 3)] == value)

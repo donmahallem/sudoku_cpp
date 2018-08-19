@@ -11,7 +11,7 @@ SudokuGenerator::~SudokuGenerator()
     //delete this->field;
     //std::cout << "destruct";
 }
-
+SudokuSolver SudokuGenerator::solver;
 void SudokuGenerator::generate(const short missing, SudokuField *output)
 {
     assert(missing >= 0 && missing <= 81);

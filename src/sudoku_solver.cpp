@@ -57,7 +57,7 @@ bool SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
             {
                 return true;
             }
-            tipField->parse(*field);
+            tipField->parse(field);
             return this->solveInternal(field, tipField);
         }
         if (field->isSolved())
