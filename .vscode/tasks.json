@@ -7,11 +7,14 @@
             "command": "g++",
             "args": [
                 "-g",
-                "src/main.cpp",
+                "binSrc/main.cpp",
                 "src/models/sudoku_field.cpp",
                 "src/models/sudoku_tip_field.cpp",
                 "src/models/tip_info.cpp",
-                "src/sudoku_solver.cpp"
+                "src/sudoku_generator.cpp",
+                "src/sudoku_solver.cpp",
+                "-I",
+                "src"
             ],
             "group": {
                 "kind": "build",
