@@ -35,10 +35,11 @@ inline int benchmark()
         system_clock::now().time_since_epoch());
 
     SudokuField *field = new SudokuField();
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 1000; i++)
     {
         field->clear();
         SudokuGenerator::generate(40, field);
+        std::cout << "Done with: " << i << std::endl;
     }
     milliseconds end_ms = duration_cast<milliseconds>(
         system_clock::now().time_since_epoch());
@@ -59,31 +60,7 @@ int main(int argc, char *argv[])
     }
     else if (argc == 3)
     {
-
-        if (argc != 2)
-        {
-            std::cout << "Not the correct number of args " << argc << std::endl;
-            return 1;
-        }
-        std::cout << argv[1] << std::endl;
-        SudokuField *f = parseInput(argv[1]);
-        std::cout << *f;
-        if (!f->isValid())
-        {
-            std::cout << "Error not valid" << std::endl;
-            return 1;
-        }
-        SudokuTipField tipField;
-        tipField.parse(*f);
-        SudokuSolver solver;
-        SudokuField *r2;
-        r2 = new SudokuField();
-        solver.solve(*f, r2);
-        std::cout << *r2;
-
-        SudokuGenerator::generate(40, f);
-        std::cout << *f;
-        std::cout << *r2;
+        return 0;
     }
     return 1;
 }
