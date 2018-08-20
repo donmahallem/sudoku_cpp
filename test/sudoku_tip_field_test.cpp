@@ -49,7 +49,8 @@ TEST_F(SudokuTipFieldTest, setRowContains)
     }
     for (short i = 0; i < 9; i++)
     {
-        EXPECT_EQ(p.rowContains(i, i + 1), true);
+        short a = i + 1;
+        EXPECT_EQ(p.rowContains(i, a), true);
     }
 }
 
@@ -74,7 +75,7 @@ TEST_F(SudokuTipFieldTest, parse)
             field.set(x, y, (x > y ? x : y) + 1);
         }
     }
-    p.parse(field);
+    p.parse(&field);
     for (short i = 0; i < 9; i++)
     {
         for (short j = 1; j <= 9; j++)
@@ -100,7 +101,7 @@ TEST_F(SudokuTipFieldTest, columnContains)
             field.set(x, y, x + 1);
         }
     }
-    p.parse(field);
+    p.parse(&field);
     for (short i = 0; i < 9; i++)
     {
         for (short value = 1; value <= 9; value++)
@@ -120,7 +121,7 @@ TEST_F(SudokuTipFieldTest, rowContains)
             field.set(x, y, x + 1);
         }
     }
-    p.parse(field);
+    p.parse(&field);
     for (short i = 0; i < 9; i++)
     {
         for (short value = 1; value <= 9; value++)

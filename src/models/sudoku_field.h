@@ -5,6 +5,7 @@ class SudokuField
 {
   private:
     short field[9][9];
+    short taken;
 
   public:
     SudokuField();
@@ -13,7 +14,9 @@ class SudokuField
     void copy(SudokuField &field);
     void copy(SudokuField *field);
     void copy(const SudokuField &field);
+    bool free(short x, short y) const;
     short get(short x, short y) const;
+    short getTaken() const;
     void set(short x, short y, short value);
     bool rowContains(short row, short value);
     bool columnContains(short column, short value);

@@ -18,7 +18,7 @@ class SudokuSolver
     bool findSingleOptionsForRows(SudokuField *sudokuField, SudokuTipField *tipField);
     bool findSingleOptionsForColumns(SudokuField *sudokuField, SudokuTipField *tipField);
     bool findSingleOptionsForBlocks(SudokuField *sudokuField, SudokuTipField *tipField);
-    bool findSingleRandom(SudokuField *sudokuField, SudokuTipField *tipField);
+    bool findSingleRandom(SudokuField *sudokuField);
     bool findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipField *tipField, short row);
     bool findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTipField *tipField, short column);
     bool findSingleOptionsForBlock(SudokuField *sudokuField, SudokuTipField *tipField, short block);

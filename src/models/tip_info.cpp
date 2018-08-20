@@ -7,21 +7,19 @@ TipInfo::TipInfo()
 }
 TipInfo::~TipInfo()
 {
-    //delete this->field;
-    //std::cout << "destruct";
 }
 
-bool TipInfo::get(short value) const
+bool TipInfo::get(const short value) const
 {
     assert(value >= 1 && value <= 9);
     return this->info[value - 1];
 };
 
-void TipInfo::set(short value, bool state)
+void TipInfo::set(const short value, const bool state)
 {
     //std::cout << "val set" << value << std::endl;
     assert(value >= 1 && value <= 9);
-    this->info[value - 1] = state;
+    this->info[value - 1] = state ? true : false;
     this->numOptions += state ? -1 : 1;
 };
 void TipInfo::setAll(bool state)
@@ -68,10 +66,17 @@ TipInfo TipInfo::operator|(const TipInfo &rhs) const
 {
     TipInfo out;
     out.numOptions = 9;
-    for (short i = 1; i <= 9; i++)
+    for (short i = 0; i < 9; i++)
     {
-        out.info[i] = this->info[i] | rhs.info[i];
-        out.numOptions -= this->info[i] | rhs.info[i];
+        if (this->info[i] | rhs.info[i])
+        {
+            out.info[i] = true;
+            out.numOptions -= 1;
+        }
+        else
+        {
+            out.info[i] = false;
+        }
     }
     return out;
 }

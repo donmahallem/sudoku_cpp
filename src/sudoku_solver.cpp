@@ -17,7 +17,7 @@ void SudokuSolver::solve(const SudokuField &input, SudokuField *output)
     output->copy(input);
     SudokuTipField *tipField;
     tipField = new SudokuTipField();
-    tipField->parse(*output);
+    tipField->parse(output);
     this->solveInternal(output, tipField);
     delete tipField;
 }
@@ -48,7 +48,7 @@ bool SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
             break;
         case 4:
             //std::cout << "Check random" << std::endl;
-            found |= this->findSingleRandom(field, tipField);
+            found |= this->findSingleRandom(field);
             break;
         }
         if (found)
@@ -68,71 +68,81 @@ bool SudokuSolver::solveInternal(SudokuField *field, SudokuTipField *tipField)
     return false;
 }
 
-bool SudokuSolver::findSingleRandom(SudokuField *sudokuField, SudokuTipField *tipField)
+bool SudokuSolver::findSingleRandom(SudokuField *sudokuField)
 {
     SudokuField *testField = new SudokuField();
+    SudokuTipField *testTipField = new SudokuTipField();
     testField->copy(sudokuField);
+    testTipField->parse(sudokuField);
     for (short x = 0; x < 9; x++)
     {
         for (short y = 0; y < 9; y++)
         {
-            if (testField->get(x, y) > 0)
+
+            if (!sudokuField->free(x, y))
             {
                 continue;
             }
-            if (tipField->getTips(x, y).getNumOptions() == 0)
+            if (testTipField->getTips(x, y).getNumOptions() == 0)
             {
                 return false;
             }
             for (short value = 1; value <= 9; value++)
             {
-                if (!tipField->isValueBlocked(x, y, value))
+                if (!testTipField->isValueBlocked(x, y, value))
                 {
                     testField->copy(sudokuField);
+                    //std::cout << "Random -> set(" << x << "," << y << "," << value << ")" << std::endl;
                     testField->set(x, y, value);
-                    tipField->parse(*testField);
+                    testTipField->parse(testField);
                     //std::cout << "Random " << x << "|" << y << " with: " << value << std::endl;
-                    if (this->solveInternal(testField, tipField))
+                    if (this->solveInternal(testField, testTipField))
                     {
                         sudokuField->copy(testField);
                         delete testField;
+                        delete testTipField;
                         return true;
                     }
                 }
             }
         }
     }
-    tipField->parse(*sudokuField);
     delete testField;
+    delete testTipField;
     return false;
 }
 bool SudokuSolver::findSingleOptionsForColumns(SudokuField *sudokuField, SudokuTipField *tipField)
 {
-    bool ret = false;
     for (short i = 0; i < 9; i++)
     {
-        ret |= this->findSingleOptionsForColumn(sudokuField, tipField, i);
+        if (this->findSingleOptionsForColumn(sudokuField, tipField, i))
+        {
+            return true;
+        }
     }
-    return ret;
+    return false;
 }
 bool SudokuSolver::findSingleOptionsForRows(SudokuField *sudokuField, SudokuTipField *tipField)
 {
-    bool ret = false;
     for (short i = 0; i < 9; i++)
     {
-        ret |= this->findSingleOptionsForRow(sudokuField, tipField, i);
+        if (this->findSingleOptionsForRow(sudokuField, tipField, i))
+        {
+            return true;
+        }
     }
-    return ret;
+    return false;
 }
 bool SudokuSolver::findSingleOptionsForBlocks(SudokuField *sudokuField, SudokuTipField *tipField)
 {
-    bool ret = false;
     for (short i = 0; i < 9; i++)
     {
-        //std::cout << "Row " << i << std::endl;
-        ret |= this->findSingleOptionsForBlock(sudokuField, tipField, i);
+        if (this->findSingleOptionsForBlock(sudokuField, tipField, i))
+        {
+            return true;
+        }
     }
-    return ret;
+    return false;
 }
 bool SudokuSolver::findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTipField *tipField, short column)
 {
@@ -150,6 +160,10 @@ bool SudokuSolver::findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTi
         }
         for (short row = 0; row < 9; row++)
         {
+            if (!sudokuField->free(column, row))
+            {
+                continue;
+            }
             if (!tipField->rowContains(row, value))
             {
                 opts += 1;
@@ -158,6 +172,7 @@ bool SudokuSolver::findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTi
         }
         if (opts == 1)
         {
+            //std::cout << "Column -> set(" << column << "," << lastOp << "," << value << ")" << std::endl;
             sudokuField->set(column, lastOp, value);
             return true;
         }
@@ -184,6 +199,10 @@ bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipFi
         //std::cout << "== Row does not contain " << value << std::endl;
         for (short column = 0; column < 9; column++)
         {
+            if (!sudokuField->free(column, row))
+            {
+                continue;
+            }
             if (!tipField->columnContains(column, value))
             {
                 opts += 1;
@@ -199,6 +218,7 @@ bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipFi
         if (opts == 1)
         {
             //std::cout << "set " << lastOp << "|" << row << " value: " << value << std::endl;
+            //std::cout << "Row -> set(" << lastOp << "," << row << "," << value << ")" << std::endl;
             sudokuField->set(lastOp, row, value);
             return true;
         }
@@ -227,10 +247,14 @@ bool SudokuSolver::findSingleOptionsForBlock(SudokuField *sudokuField, SudokuTip
         {
             continue;
         }
-        for (short x = minX; x < maxX; x++)
+        for (short x = minX; x < maxX && opts < 2; x++)
         {
-            for (short y = minY; y < maxY; y++)
+            for (short y = minY; y < maxY && opts < 2; y++)
             {
+                if (!sudokuField->free(x, y))
+                {
+                    continue;
+                }
                 if (tipField->rowContains(y, value) || tipField->columnContains(x, value))
                 {
                     continue;
@@ -242,6 +266,7 @@ bool SudokuSolver::findSingleOptionsForBlock(SudokuField *sudokuField, SudokuTip
         }
         if (opts == 1)
         {
+            //std::cout << "Block -> set(" << lastX << "," << lastY << "," << value << ")" << std::endl;
             sudokuField->set(lastX, lastY, value);
             return true;
         }
@@ -257,7 +282,7 @@ bool SudokuSolver::findSingleOptions(SudokuField *sudokuField, SudokuTipField *t
         {
             //std::cout << x << "," << y << " - " << sudokuField.get(x, y) << std ::endl;
 
-            if (sudokuField->get(x, y) != 0)
+            if (!sudokuField->free(x, y))
             {
                 continue;
             }
@@ -271,6 +296,7 @@ bool SudokuSolver::findSingleOptions(SudokuField *sudokuField, SudokuTipField *t
                     {
                         //std::cout << "Value set" << x << "," << y << " " << z << std::endl;
                         //std::cout << "set " << x << "|" << y << " value: " << value << std::endl;
+                        //std::cout << "SingleOpts -> set(" << x << "," << y << "," << value << ")" << std::endl;
                         sudokuField->set(x, y, value);
                         foundOptions++;
                         return true; //break;

@@ -10,8 +10,8 @@ class TipInfo
   public:
     TipInfo();
     ~TipInfo();
-    void set(short value, bool state);
-    bool get(short value) const;
+    void set(const short value, const bool state);
+    bool get(const short value) const;
     void setAll(bool state);
     void reset();
     short getNumOptions() const;
