@@ -5,7 +5,7 @@ AC_INIT([Sudoku cpp],
 AC_PREREQ([2.59])
 AC_CONFIG_SRCDIR([./README.md])
 AC_CONFIG_AUX_DIR([build-aux])
-AC_CONFIG_FILES([Makefile src/Makefile test/Makefile web/Makefile])
+AC_CONFIG_FILES([Makefile test/Makefile web/Makefile benchmark/Makefile binSrc/Makefile])
 
 dnl configure.ac text…
 
