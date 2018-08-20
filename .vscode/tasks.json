@@ -6,6 +6,7 @@
             "type": "shell",
             "command": "g++",
             "args": [
+                "-std=c++11",
                 "-g",
                 "binSrc/main.cpp",
                 "src/models/sudoku_field.cpp",
