@@ -1,0 +1,4 @@
+build/
+Makefile
+Makefile.in
+test.txt
