@@ -1,6 +1,6 @@
 .PHONY: all test web
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = test web benchmark binSrc
+SUBDIRS = test benchmark binSrc
 CXXFLAGS = -Wall -std=gnu++11 -g $(USECLANG)
 
 all: test web
