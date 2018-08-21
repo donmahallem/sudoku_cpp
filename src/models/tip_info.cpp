@@ -4,25 +4,22 @@
 
 TipInfo::TipInfo()
 {
-    this->reset();
 }
 TipInfo::~TipInfo()
 {
-    //delete this->field;
-    //std::cout << "destruct";
 }
 
-bool TipInfo::get(short value) const
+bool TipInfo::get(const short value) const
 {
-    assert(value >= 1 || value <= 9);
+    assert(value >= 1 && value <= 9);
     return this->info[value - 1];
 };
 
-void TipInfo::set(short value, bool state)
+void TipInfo::set(const short value, const bool state)
 {
     //std::cout << "val set" << value << std::endl;
     assert(value >= 1 && value <= 9);
-    this->info[value - 1] = state;
+    this->info[value - 1] = state ? true : false;
     this->numOptions += state ? -1 : 1;
 };
 void TipInfo::setAll(bool state)
@@ -45,9 +42,9 @@ short TipInfo::getNumOptions() const
 }
 bool TipInfo::operator==(const TipInfo &rhs)
 {
-    for (short i = 1; i <= 9; i++)
+    for (short i = 0; i < 9; i++)
     {
-        if (this->get(i) != rhs.get(i))
+        if (this->info[i] != rhs.info[i])
         {
             return false;
         }
@@ -56,27 +53,32 @@ bool TipInfo::operator==(const TipInfo &rhs)
 }
 bool TipInfo::operator!=(const TipInfo &rhs)
 {
-    for (short i = 1; i <= 9; i++)
+    for (short i = 0; i < 9; i++)
     {
-        if (this->get(i) != rhs.get(i))
+        if (this->info[i] != rhs.info[i])
         {
             return true;
         }
     }
     return false;
 }
-
-TipInfo &operator|(const TipInfo &lhs, const TipInfo &rhs)
+TipInfo TipInfo::operator|(const TipInfo &rhs) const
 {
-    TipInfo *out = new TipInfo();
-    int opts = 9;
-    for (short i = 1; i <= 9; i++)
+    TipInfo out;
+    out.numOptions = 9;
+    for (short i = 0; i < 9; i++)
     {
-        out->set(i, lhs.get(i) | rhs.get(i));
-        opts -= (lhs.get(i) | rhs.get(i));
+        if (this->info[i] | rhs.info[i])
+        {
+            out.info[i] = true;
+            out.numOptions -= 1;
+        }
+        else
+        {
+            out.info[i] = false;
+        }
     }
-    out->numOptions = opts;
-    return *out;
+    return out;
 }
 std::ostream &operator<<(std::ostream &out, const TipInfo &info)
 {

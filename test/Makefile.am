@@ -1,10 +1,9 @@
-
+.PHONY: all test
 
 
 SRCDIR = ../src
-BUILDDIR = ../build
-TESTBUILDDIR = ../buildTest
-TESTSRCDIR = ./
+BUILDDIR = ./build
+TESTSRCDIR = .
 TARGET = main
 GTESTDIR = ../googletest/googletest
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)\
@@ -12,7 +11,7 @@ SOURCES = $(wildcard $(SRCDIR)/*.cpp)\
 TESTSOURCES = $(wildcard $(TESTSRCDIR)/*.cpp)\
     $(wildcard $(TESTSRCDIR)/**/*.cpp)
 OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
-TESTOBJECTS = $(patsubst $(TESTSRCDIR)/%.cpp,$(TESTBUILDDIR)/%.o,$(TESTSOURCES))
+TESTOBJECTS = $(patsubst $(TESTSRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(TESTSOURCES))
 GTESTHEADERS = $(GTESTDIR)/include/gtest/*.h \
                 $(GTESTDIR)/include/gtest/internal/*.h
 GTESTSRCS = $(GTESTDIR)/src/*.cc $(GTESTDIR)/src/*.h $(GTESTHEADERS)
@@ -20,16 +19,20 @@ GTESTSRCS = $(GTESTDIR)/src/*.cc $(GTESTDIR)/src/*.h $(GTESTHEADERS)
 
 CXXFLAGS = -Wall -std=gnu++11 -g -isystem $(GTESTDIR)/include
 
-buildTestFile: $(TESTOBJECTS) $(filter-out $(BUILDDIR)/main.o, $(OBJECTS)) $(TESTBUILDDIR)/gtest_main.a
+buildTestFile: $(TESTOBJECTS) $(OBJECTS) $(BUILDDIR)/gtest_main.a
 	@echo NO IDEA $(OBJECTS)
 	@echo NO IDEA2 $(TESTOBJECTS)
 	@echo NO IDEA3 $(filter-out $(BUILDDIR)/main.o, $(OBJECTS))
 	@echo NO IDEA3 $(TESTBUILDDIR)/gtest_main.a $(RANDOMDAT)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) -lpthread $^ -o $(TESTBUILDDIR)/test
+	@mkdir -p $(@D)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) -I $(SRCDIR) -lpthread $^ -o $(BUILDDIR)/test
 
-buildGtestLib: $(TESTBUILDDIR)/gtest_main.a
+buildGtestLib: $(BUILDDIR)/gtest_main.a
 
-all: buildTestFile
+all: $(BUILDDIR)/gtest_main.a test
+	@echo skip
+
+test: buildTestFile Makefile.am
 
 clean:
 	$(RM) $(ALL) *.o
@@ -39,17 +42,28 @@ clean:
 #	$(CXX) $(CXXFLAGS) $< -c -o $@
 
 
-$(TESTBUILDDIR)/gtest-all.o : $(GTESTSRCS)
+$(BUILDDIR)/gtest-all.o : $(GTESTSRCS)
+	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) -I$(GTESTDIR) $(CXXFLAGS) -c \
             $(GTESTDIR)/src/gtest-all.cc -o $@
-$(TESTBUILDDIR)/gtest_main.o : $(GTESTSRCS)
+$(BUILDDIR)/gtest_main.o : $(GTESTSRCS)
+	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) -I$(GTESTDIR) $(CXXFLAGS) -c \
             $(GTESTDIR)/src/gtest_main.cc -o $@
-$(TESTBUILDDIR)/gtest.a : $(TESTBUILDDIR)/gtest-all.o
+$(BUILDDIR)/gtest.a : $(BUILDDIR)/gtest-all.o
+	@mkdir -p $(@D)
 	$(AR) $(ARFLAGS) $@ $^
-$(TESTBUILDDIR)/gtest_main.a : $(TESTBUILDDIR)/gtest-all.o $(TESTBUILDDIR)/gtest_main.o
+$(BUILDDIR)/gtest_main.a : $(BUILDDIR)/gtest-all.o $(BUILDDIR)/gtest_main.o
+	@mkdir -p $(@D)
 	$(AR) $(ARFLAGS) $@ $^
 
 
-$(TESTBUILDDIR)/%.o : $(TESTSRCDIR)/%.cpp
+$(BUILDDIR)/%.o : $(SRCDIR)/%.cpp
+	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) $(CPPFLAGS) $< -c -o $@
+$(BUILDDIR)/models/%.o : $(SRCDIR)/models/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) $(CPPFLAGS) $< -c -o $@
+$(BUILDDIR)/%.o : $(TESTSRCDIR)/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(CPPCOVERAGEFLAGS) -I $(SRCDIR) $(CPPFLAGS) $< -c -o $@

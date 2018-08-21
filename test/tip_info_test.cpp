@@ -83,26 +83,74 @@ TEST_F(TipInfoTest, orOperator)
     p.set(4, true);
     p1.set(2, true);
 
-    TipInfo p2 = p | p1;
+    TipInfo testTip = p | p1;
+    EXPECT_EQ(p.getNumOptions(), 8) << "Expected 8 options available " << testTip << std::endl;
+    EXPECT_EQ(p1.getNumOptions(), 8) << "Expected 8 options available " << testTip << std::endl;
+    EXPECT_EQ(testTip.getNumOptions(), 7) << "Expected 7 options available " << testTip << std::endl;
     for (short i = 1; i <= 9; i++)
     {
         if (i == 2)
         {
             EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be false";
             EXPECT_EQ(p1.get(i), true) << "Expected " << i << "to be true";
-            EXPECT_EQ(p2.get(i), true) << "Expected " << i << "to be true";
+            EXPECT_EQ(testTip.get(i), true) << "Expected " << i << "to be true";
         }
         else if (i == 4)
         {
             EXPECT_EQ(p.get(i), true) << "Expected " << i << "to be true";
             EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(testTip.get(i), true) << "Expected " << i << "to be true";
+        }
+        else
+        {
+            EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(testTip.get(i), false) << "Expected " << i << "to be false";
+        }
+    }
+}
+TEST_F(TipInfoTest, multiOrOperator)
+{
+    TipInfo p1;
+    TipInfo p2;
+    p.set(4, true);
+    p1.set(2, true);
+    p2.set(6, true);
+
+    TipInfo testTip = p | p1 | p2;
+    EXPECT_EQ(p.getNumOptions(), 8) << "Expected 8 options available";
+    EXPECT_EQ(p1.getNumOptions(), 8) << "Expected 8 options available";
+    EXPECT_EQ(p2.getNumOptions(), 8) << "Expected 8 options available";
+    EXPECT_EQ(testTip.getNumOptions(), 6) << "Expected 6 options available " << testTip << std::endl;
+    for (short i = 1; i <= 9; i++)
+    {
+        if (i == 2)
+        {
+            EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p1.get(i), true) << "Expected " << i << "to be true";
+            EXPECT_EQ(p2.get(i), false) << "Expected " << i << "to be true";
+            EXPECT_EQ(testTip.get(i), true) << "Expected " << i << "to be true";
+        }
+        else if (i == 4)
+        {
+            EXPECT_EQ(p.get(i), true) << "Expected " << i << "to be true";
+            EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(p2.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(testTip.get(i), true) << "Expected " << i << "to be true";
+        }
+        else if (i == 6)
+        {
+            EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be true";
+            EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
             EXPECT_EQ(p2.get(i), true) << "Expected " << i << "to be true";
+            EXPECT_EQ(testTip.get(i), true) << "Expected " << i << "to be true";
         }
         else
         {
             EXPECT_EQ(p.get(i), false) << "Expected " << i << "to be false";
             EXPECT_EQ(p1.get(i), false) << "Expected " << i << "to be false";
             EXPECT_EQ(p2.get(i), false) << "Expected " << i << "to be false";
+            EXPECT_EQ(testTip.get(i), false) << "Expected " << i << "to be false";
         }
     }
 }

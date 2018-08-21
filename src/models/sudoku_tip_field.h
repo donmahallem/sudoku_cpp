@@ -12,9 +12,9 @@ class SudokuTipField
     TipInfo columns[9];
     TipInfo blocks[9];
     short static const SIZE = 9;
-    void checkRows(SudokuField &field, short value);
-    void checkColumns(SudokuField &field, short value);
-    void checkBlocks(SudokuField &field, short value);
+    void checkRows(SudokuField *field, short value);
+    void checkColumns(SudokuField *field, short value);
+    void checkBlocks(SudokuField *field, short value);
 
   public:
     SudokuTipField();
@@ -23,13 +23,16 @@ class SudokuTipField
     void print();
     void reset();
     void parse(SudokuField &field);
+    void parse(SudokuField *field);
     const TipInfo &getTipsForRow(const short row) const;
     const TipInfo &getTipsForColumn(const short column) const;
     void setBlockContains(short x, short y, short value);
     void setRowContains(short row, short value);
     void setColumnContains(short column, short value);
     bool isValueBlocked(short x, short y, short value);
-    bool rowContains(short row, short value);
+    bool rowContains(short &row, short &value);
+    bool columnContains(short &column, short &value);
+    bool blockContains(const short &x, const short &y, const short &value);
     TipInfo getTips(short x, short y);
 };
 
