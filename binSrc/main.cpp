@@ -28,22 +28,23 @@ inline SudokuField *parseInput(char *inp)
     return field;
 }
 
-inline int benchmark()
+inline int benchmark(int runs)
 {
     std::cout << "Starting benchmark " << std::endl;
     milliseconds start_ms = duration_cast<milliseconds>(
         system_clock::now().time_since_epoch());
 
     SudokuField *field = new SudokuField();
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < runs; i++)
     {
         field->clear();
         SudokuGenerator::generate(40, field);
-        std::cout << "Done with: " << i << std::endl;
+        //std::cout << "Done with: " << i << std::endl;
     }
     milliseconds end_ms = duration_cast<milliseconds>(
         system_clock::now().time_since_epoch());
-    std::cout << "End benchmak" << std::endl;
+    delete field;
+    std::cout << "End benchmark " << runs << std::endl;
     std::cout << "Took: " << (end_ms - start_ms).count() << std::endl;
     return 0;
 }
@@ -55,7 +56,12 @@ int main(int argc, char *argv[])
     {
         if (strcmp("benchmark", argv[1]) == 0)
         {
-            return benchmark();
+            benchmark(1);
+            benchmark(10);
+            benchmark(100);
+            benchmark(1000);
+            benchmark(10000);
+            return 0;
         }
     }
     else if (argc == 3)

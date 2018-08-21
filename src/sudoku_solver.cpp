@@ -158,7 +158,7 @@ bool SudokuSolver::findSingleOptionsForColumn(SudokuField *sudokuField, SudokuTi
             //std::cout << "Column " << column << " contains " << value << std::endl;
             continue;
         }
-        for (short row = 0; row < 9; row++)
+        for (short row = 0; row < 9 && opts < 2; row++)
         {
             if (!sudokuField->free(column, row))
             {
@@ -197,7 +197,7 @@ bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipFi
             continue;
         }
         //std::cout << "== Row does not contain " << value << std::endl;
-        for (short column = 0; column < 9; column++)
+        for (short column = 0; column < 9 && opts < 2; column++)
         {
             if (!sudokuField->free(column, row))
             {
@@ -208,11 +208,6 @@ bool SudokuSolver::findSingleOptionsForRow(SudokuField *sudokuField, SudokuTipFi
                 opts += 1;
                 lastOp = column;
                 //std::cout << "== Column " << column << " does not contain " << value << std::endl;
-            }
-            else
-            {
-
-                //std::cout << "== Column " << column << " contains " << value << std::endl;
             }
         }
         if (opts == 1)
