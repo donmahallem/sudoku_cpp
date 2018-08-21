@@ -43,7 +43,7 @@ jobs:
       script: 
         - ./configure --enable-coverage
         - make
-        - ./buildTest/test
+        - ./test/build/test
     - stage: compile
       script:
         - ./configure --enable-coverage
