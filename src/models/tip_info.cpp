@@ -42,9 +42,9 @@ short TipInfo::getNumOptions() const
 }
 bool TipInfo::operator==(const TipInfo &rhs)
 {
-    for (short i = 1; i <= 9; i++)
+    for (short i = 0; i < 9; i++)
     {
-        if (this->get(i) != rhs.get(i))
+        if (this->info[i] != rhs.info[i])
         {
             return false;
         }
@@ -53,9 +53,9 @@ bool TipInfo::operator==(const TipInfo &rhs)
 }
 bool TipInfo::operator!=(const TipInfo &rhs)
 {
-    for (short i = 1; i <= 9; i++)
+    for (short i = 0; i < 9; i++)
     {
-        if (this->get(i) != rhs.get(i))
+        if (this->info[i] != rhs.info[i])
         {
             return true;
         }
