@@ -40,6 +40,7 @@ short TipInfo::getNumOptions() const
 {
     return this->numOptions;
 }
+
 bool TipInfo::operator==(const TipInfo &rhs)
 {
     for (short i = 0; i < 9; i++)

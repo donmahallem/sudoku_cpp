@@ -154,3 +154,15 @@ TEST_F(TipInfoTest, multiOrOperator)
         }
     }
 }
+
+TEST_F(TipInfoTest, outOperator)
+{
+    for (short x = 1; x <= 9; x++)
+    {
+        p.set(x, x % 2 == 0);
+    }
+    std::stringstream out;
+    out << p;
+    std::string s = out.str();
+    EXPECT_STREQ(s.c_str(), "TipInfo(1,3,5,7,9)");
+}

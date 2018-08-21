@@ -130,4 +130,37 @@ TEST_F(SudokuTipFieldTest, rowContains)
         }
     }
 }
+TEST_F(SudokuTipFieldTest, isValueBlocked)
+{
+    SudokuField field;
+    for (short x = 0; x < 9; x++)
+    {
+        field.set(x, x, x + 1);
+    }
+    p.parse(&field);
+    for (short x = 0; x < 9; x++)
+    {
+        for (short y = 0; y < 9; y++)
+        {
+            for (short i = 0; i < 9; i++)
+            {
+                bool testValue = i == x;
+                testValue |= i == y;
+                if (x < 3 && y < 3 && i < 3)
+                {
+                    testValue = true;
+                }
+                else if (x >= 3 && x < 6 && y >= 3 && y < 6 && i >= 3 && i < 6)
+                {
+                    testValue = true;
+                }
+                else if (x >= 6 && x < 9 && y >= 6 && y < 9 && i >= 6 && i < 9)
+                {
+                    testValue = true;
+                }
+                EXPECT_EQ(p.isValueBlocked(x, y, i + 1), testValue) << "Expected " << x << "," << y << " to be blocked " << (i + 1);
+            }
+        }
+    }
+}
 // }  // namespace - could surround Project1Test in a namespace

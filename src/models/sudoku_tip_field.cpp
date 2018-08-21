@@ -15,6 +15,7 @@ void SudokuTipField::print()
 {
     std::cout << "Field" << std::endl;
 };
+
 void SudokuTipField::parse(SudokuField *field)
 {
     this->reset();
@@ -38,6 +39,7 @@ const TipInfo &SudokuTipField::getTipsForColumn(const short column) const
     assert(column >= 0 && column < 9);
     return this->columns[column];
 }
+
 const TipInfo &SudokuTipField::getTipsForRow(const short row) const
 {
     assert(row >= 0 && row < 9);
@@ -91,12 +93,14 @@ void SudokuTipField::setBlockContains(short block_x, short block_y, short value)
     assert(value >= 1 && value <= 9);
     this->blocks[block_x + (block_y * 3)].set(value, true);
 };
+
 void SudokuTipField::setRowContains(short row, short value)
 {
     assert(row >= 0 && row < 9);
     assert(value >= 1 && value <= 9);
     this->rows[row].set(value, true);
 };
+
 void SudokuTipField::setColumnContains(short column, short value)
 {
     assert(column >= 0 && column < 9);
@@ -110,12 +114,14 @@ bool SudokuTipField::rowContains(short &row, short &value)
     assert(value >= 1 && value <= 9);
     return this->rows[row].get(value);
 }
+
 bool SudokuTipField::columnContains(short &column, short &value)
 {
     assert(column >= 0 && column < 9);
     assert(value >= 1 && value <= 9);
     return this->columns[column].get(value);
 }
+
 bool SudokuTipField::blockContains(const short &x, const short &y, const short &value)
 {
     assert(x >= 0 && x < 3);
@@ -125,6 +131,7 @@ bool SudokuTipField::blockContains(const short &x, const short &y, const short &
     const short val = value;
     return this->blocks[pos].get(val);
 }
+
 void SudokuTipField::reset()
 {
     for (short x = 0; x < this->SIZE; x++)
@@ -139,6 +146,7 @@ bool SudokuTipField::isValueBlocked(short x, short y, short value)
 {
     return this->rows[y].get(value) | this->columns[x].get(value) | this->blocks[x / 3 + ((y / 3) * 3)].get(value);
 }
+
 TipInfo SudokuTipField::getTips(short x, short y)
 {
     return this->rows[y] | this->columns[x] | this->blocks[x / 3 + ((y / 3) * 3)];
